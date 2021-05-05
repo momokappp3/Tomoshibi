@@ -4,5 +4,23 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Title.unity
+    guid: b7fa29ae8926fc14aba41f637e6bc014
+  - enabled: 1
+    path: Assets/Scenes/GameSample.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 0
+    path: Assets/Scenes/maru.unity
+    guid: 1d0d9d7b1e6379645b989f0ea8239027
+  - enabled: 0
+    path: Assets/momoka/momokaGame.unity
+    guid: 448a46c435495304fb50e42dc35877e7
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: b37b87a7610cb6848ae019d8c33c0e70
+  - enabled: 1
+    path: Assets/Scenes/GameClear.unity
+    guid: dbffe9734ebc4e54684b2ce670a9af32
   m_configObjects: {}
