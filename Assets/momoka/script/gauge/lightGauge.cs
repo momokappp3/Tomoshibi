@@ -1,27 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using UnityEngine.UI;
+
+/*
+ゲームにfadeを追加
+体力ゲージscaleとα追加
+ */
 
 public class lightGauge : MonoBehaviour
 {
-
-    private const float GAUGE_EFFECT_RATE = 0.5f;
+    private const float GAUGE_EFFECT_RATE = 1.0f;
 
     private enum lightType
     {
-
         Red = 0,
-        Purple,
-        Orange,
-        Yellow,
-        Blue,
+        Red1,
+        Red2,
+        Red3,
+        Red4,
+        Red5,
+        Red6,
 
         Max
     }
 
-    //ゲージ本体なのでこれを呼び出して減らしてください
-    public float lightNum = 1000.0f;
+    [SerializeField] private float lightNum = 4000.0f;  //ゲージ本体
+    public bool noLight = false;
 
     [SerializeField] private float downLightNum = 0.01f;
     [SerializeField] private List<Image> lightImage = new List<Image>();
@@ -30,31 +36,39 @@ public class lightGauge : MonoBehaviour
     private float lightTypeMax = (float)lightType.Max;
     private float unitLight = 0.0f;
     private float timerLight = 0.0f;
-
-    int k = 0;
-
+    //int k = 0;
     
     public void decLight(float degree)
     {
-        lightImage[k].color -= new Color(0, 0, 0, 100);
-        k += 1;
+        lightNum -= degree;
+
+        //lightImage[k].color -= new Color(0.0f, 0.0f, 0.0f, 100.0f);
+        // k += 1;
     }
 
     void Start()
     {
-        unitLight = lightNum / lightTypeMax;
+        unitLight = lightNum / lightTypeMax;  //一つの火の玉の時間
         lightMax = lightNum;
     }
 
     void Update()
     {
-        UpdataGage();
+        if (lightNum <= 0.0f)
+        {
+            noLight = true; 
+            lightNum = 0.0f;
+            //一回炎全消しする
+            SetLightGauge(lightType.Max);
+        }
+        else  //ラグが酷いelseで少し改善
+        {
+            UpdataGage();
+        }
     }
 
     void UpdataGage()
     {
-
-        //Debug.Log(lightNum);
         if (lightNum > 0.0f)
         {
             var delta = downLightNum * Time.deltaTime;
@@ -66,11 +80,9 @@ public class lightGauge : MonoBehaviour
                 lightNum = 0.0f;
             }
 
-            //Debug.Log(lightNum);
-
             var rate = lightNum / lightMax;  //0～1に変換
             var invRate = 1.0f - rate;
-            var light = (lightType)(lightTypeMax * invRate);
+            var light = (lightType)(lightTypeMax * invRate);  //ライト
 
             if (nowLight < light)
             {
@@ -78,21 +90,16 @@ public class lightGauge : MonoBehaviour
                 nowLight = light;
                 SetLightGauge(light);
             }
-            else
+            else  //現在から消えるまでの間 (nowLight == light)同じとき
             {
                 timerLight += delta;
 
-                var effectRate = timerLight / unitLight;
+                var effectRate = timerLight / unitLight;  //火の玉のRate 0～1
 
-                if(effectRate < GAUGE_EFFECT_RATE)
+                if (effectRate < GAUGE_EFFECT_RATE)
                 {
-                    SetLightScale(nowLight, effectRate);
-                }/*
-                else
-                {
-                    SetLightScaleAndAlpha()
+                    SetLightScaleAndAlpha(nowLight, 1 - effectRate);
                 }
-                */
             }
         }
     }
@@ -113,7 +120,8 @@ public class lightGauge : MonoBehaviour
         }
     }
 
-    void SetLightScale(lightType gauge, float rate)
+    //渡した引数まで大きさとアルファを変化させる   rate = 大きく  1 - rate = 小さく
+    void SetLightScaleAndAlpha(lightType gauge, float rate)
     {
 
         int gaugeInt = (int)gauge;
@@ -129,15 +137,7 @@ public class lightGauge : MonoBehaviour
             rate = 0.0f;
         }
 
-        float val = 1.0f - rate;
-
-        lightImage[gaugeInt].color = new Color(c.r, c.g, c.b, val);
-
-        lightImage[gaugeInt].rectTransform.localScale = new Vector3(val, val, val);
-    }
-
-    private void Down(float num)
-    {
-        lightNum -= num;
+        lightImage[gaugeInt].color = new Color(c.r, c.g, c.b, rate);  //アルファ
+        lightImage[gaugeInt].rectTransform.localScale = new Vector3(rate, rate, rate);  //大きさ
     }
 }

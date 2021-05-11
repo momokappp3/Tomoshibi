@@ -39,6 +39,7 @@ public class G1Controller : MonoBehaviour
     GameManager GMmanager;
     GameObject player;
     float distance = 0.0f;
+    float distance2 = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +53,17 @@ public class G1Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        distance2 = Mathf.Abs(player.transform.Find("Point Light").transform.position.x - transform.position.x);
+        // 攻撃された
+        if (distance2 < 4 && player.GetComponent<PlayerController>().state == PlayerController.State.Attack)
+        {
+            countTime = 0.0f;
+            maeTime = 1.5f;
+            state = EneState.Damage;
+            TargetMaterial.SetTexture("_MainTex", damText);
+        }
+
+
         if (state == EneState.Attack)
         {
             if (Mathf.Abs(amount.x) > 1.0f)
@@ -108,7 +120,8 @@ public class G1Controller : MonoBehaviour
 
             }
             transform.position += new Vector3(buruDir, 0, 0) * 10 * Time.deltaTime;
-            if (maeTime < 0.0f)
+
+            if (maeTime < 0.0f || TargetMaterial.color.a < 0.001f)
             {
                 //TargetMaterial.SetTexture("_MainTex", norText);
                 //state = EneState.Normal;
@@ -153,13 +166,18 @@ public class G1Controller : MonoBehaviour
             xDir *= -1;
             transform.localScale = new Vector3(xDir, 1, 1);
         }
+
+        
     }
 
     // 当たり判定
     private void OnTriggerEnter(Collider other)
     {
         // 攻撃した
-        if (other.tag == "Core" && state != EneState.Damage && player.GetComponent<PlayerController>().state == PlayerController.State.Normal)
+        if (other.tag == "Core"
+            && state != EneState.Damage
+            && player.GetComponent<PlayerController>().state != PlayerController.State.Damage
+            && player.GetComponent<PlayerController>().state != PlayerController.State.Muteki)
         {
             player.GetComponent<PlayerController>().Damage();
         }

@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class Audi : MonoBehaviour
 {
-
     public AudioClip sound1;
     AudioSource audioSource;
+
+    bool IsFadeIn = true;
+    public bool IsFadeOut = false;  //IsFadeOut‚ðtrue‚É‚µ‚Ä‚­‚¾‚³‚¢
+    float FadeInCountTime = 0.0f;
+    float FadeOutCountTime = 0.0f;
+
+    [SerializeField] private float FadeInSeconds = 15.0f;
+    [SerializeField] private float FadeOutSeconds = 5.0f;
 
     void Start()
     {
@@ -16,11 +23,26 @@ public class Audi : MonoBehaviour
 
     void Update()
     {
-        // ¶
-        if (Input.GetMouseButtonDown(0))
+        if (IsFadeIn)
         {
-            //‰¹(sound1)‚ð–Â‚ç‚·
-            audioSource.PlayOneShot(sound1);
+            FadeInCountTime += Time.deltaTime;
+            audioSource.volume = (float)(FadeInCountTime / FadeInSeconds);
+
+            if (FadeInCountTime >= FadeInSeconds)
+            {
+                IsFadeIn = false;
+            }
+        }
+
+        if (IsFadeOut)
+        {
+            FadeOutCountTime += Time.deltaTime;
+            audioSource.volume = 1 - (float)(FadeOutCountTime / FadeOutSeconds);
+
+           // if (FadeOutCountTime >= FadeOutSeconds)
+            //{
+              //  IsFadeOut = false;
+           // }
         }
     }
 }

@@ -11,18 +11,39 @@ public class GameManager : MonoBehaviour
     public Text[] Texts = new Text[4];
 
     int[] scores = new int[] {0, 0, 0, 0 };
-    int hp = 5;
+    //int hp = 5;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    //momoka
+    public GameObject audi;
+
+    [SerializeField] private float anim;   //何秒かけてαが動くか
+    private float timer = 0.0f;
+
+    [SerializeField] private Image fadeImage;
+    [SerializeField] private float timeFadeIn = 3.0f;
+    [SerializeField] private float timeFadeOut = 1.0f;
+    private float countUpFadeIn = 0.0f;
+    private float countUpFadeOut = 0.0f;
+
+    private bool goGameOver = false;
+
+    void Start(){   
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        UpdateFade(false);
+
+        if (goGameOver)
+        {
+            countUpFadeOut += Time.deltaTime;
+            UpdateFade(true);
+
+            if (countUpFadeOut >= timeFadeOut)
+            {
+                SceneManager.LoadScene("GameOver");
+            }
+        }
     }
 
     public GameObject GetPlayer()
@@ -32,11 +53,13 @@ public class GameManager : MonoBehaviour
 
     public void Damage()
     {
-        gauge.GetComponent<lightGauge>().decLight(200);
-        hp -= 1;
-        if (hp == 0)
+        gauge.GetComponent<lightGauge>().decLight(500);
+
+        if (!goGameOver && gauge.GetComponent<lightGauge>().noLight)  //0だとゲームオーバーに行かなかった  炎の表示にずれが出てる
         {
-            SceneManager.LoadScene("GameOver");
+            goGameOver = true;
+            timer = 0.0f;
+            audi.GetComponent<Audi>().IsFadeOut = true;
         }
     }
 
@@ -50,5 +73,43 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("go");
         SceneManager.LoadScene("GameClear");
+    }
+
+    private void UpdateFade(bool reverse)
+    {
+        timer += Time.deltaTime;
+
+        var a = timer / anim;  //0～1の割合
+
+        if (reverse)  //三項演算子できなかったヽ(`Д´)ﾉなんでや
+        {
+            SetImageAlpha(a);
+        }
+        else
+        {
+            SetImageAlpha(1 - a);
+        }
+    }
+
+    private void SetImageAlpha(float alpha)
+    {
+        if (alpha > 1.0f)
+        {
+            alpha = 1.0f;
+        }
+
+        if (alpha < 0.0f)
+        {
+            alpha = 0.0f;
+        }
+
+        if (!fadeImage.enabled)
+        {
+            fadeImage.enabled = true;
+        }
+
+        var c = fadeImage.color;
+
+        fadeImage.color = new Color(c.r, c.g, c.b, alpha);
     }
 }

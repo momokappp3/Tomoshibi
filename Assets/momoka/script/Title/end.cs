@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class end : MonoBehaviour
 {
-
-    //fadeInOut‚Ìˆ—
-
     [SerializeField] private Image selectImage;
     [SerializeField] private Image fadeImage;
 
@@ -27,12 +24,10 @@ public class end : MonoBehaviour
         selectImage.enabled = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-
+        UpdateFade(false);
         countUpInput += Time.deltaTime;
-        UpdateFade();
 
         if (!selectImage.enabled && Input.anyKeyDown && countUpInput >= timeInput)
         {
@@ -47,7 +42,7 @@ public class end : MonoBehaviour
         if (onEnter)
         {
             countUpFadeOut += Time.deltaTime;
-            ReverseUpdateFade();
+            UpdateFade(true);
             if (countUpFadeOut >= timeFadeOut)
             {
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
@@ -56,27 +51,24 @@ public class end : MonoBehaviour
 
     }
 
-    private void ReverseUpdateFade()
+    private void UpdateFade(bool reverse)
     {
         timer += Time.deltaTime;
 
         var a = timer / anim;  //0`1‚ÌŠ„‡
 
-        SetImageAlpha(a);
-    }
-
-    private void UpdateFade()
-    {
-        timer += Time.deltaTime;
-
-        var a = timer / anim;  //0`1‚ÌŠ„‡
-
-        SetImageAlpha(1 - a);
+        if (reverse)  //ŽO€‰‰ŽZŽq‚Å‚«‚È‚©‚Á‚½R(`„DL)É‚È‚ñ‚Å‚â
+        {
+            SetImageAlpha(a);
+        }
+        else
+        {
+            SetImageAlpha(1 - a);
+        }
     }
 
     private void SetImageAlpha(float alpha)
     {
-
         if (alpha > 1.0f)
         {
             alpha = 1.0f;

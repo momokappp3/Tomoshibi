@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -556,6 +556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30d7ec72e883a07498458223b8f9dbdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxAlpha: 4.2
   selectImage: {fileID: 253529175}
   colorImage:
   - {fileID: 1074438366}
@@ -564,16 +565,16 @@ MonoBehaviour:
   - {fileID: 374383375}
   fadeInfo:
   - wait: 0
-    anim: 10
+    anim: 8
     alpha: 0
   - wait: 2
     anim: 6
     alpha: 0
-  - wait: 4
-    anim: 3
+  - wait: 3
+    anim: 5
     alpha: 0
   - wait: 4
-    anim: 9
+    anim: 6
     alpha: 0
   timeLimitGoGame: 5
 --- !u!114 &1162019975
