@@ -34,6 +34,13 @@ public class GameManager : MonoBehaviour
     {
         UpdateFade(false);
 
+        if (!goGameOver && gauge.GetComponent<lightGauge>().noLight)  //0だとゲームオーバーに行かなかった
+        {
+            goGameOver = true;
+            timer = 0.0f;
+            audi.GetComponent<Audi>().IsFadeOut = true;
+        }
+
         if (goGameOver)
         {
             countUpFadeOut += Time.deltaTime;
@@ -55,7 +62,7 @@ public class GameManager : MonoBehaviour
     {
         gauge.GetComponent<lightGauge>().decLight(500);
 
-        if (!goGameOver && gauge.GetComponent<lightGauge>().noLight)  //0だとゲームオーバーに行かなかった  炎の表示にずれが出てる
+        if (!goGameOver && gauge.GetComponent<lightGauge>().noLight)
         {
             goGameOver = true;
             timer = 0.0f;
@@ -93,15 +100,7 @@ public class GameManager : MonoBehaviour
 
     private void SetImageAlpha(float alpha)
     {
-        if (alpha > 1.0f)
-        {
-            alpha = 1.0f;
-        }
-
-        if (alpha < 0.0f)
-        {
-            alpha = 0.0f;
-        }
+        alpha = Mathf.Clamp(alpha, 0.0f, 1.0f);
 
         if (!fadeImage.enabled)
         {

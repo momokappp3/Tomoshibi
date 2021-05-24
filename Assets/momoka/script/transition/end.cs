@@ -69,15 +69,8 @@ public class end : MonoBehaviour
 
     private void SetImageAlpha(float alpha)
     {
-        if (alpha > 1.0f)
-        {
-            alpha = 1.0f;
-        }
 
-        if (alpha < 0.0f)
-        {
-            alpha = 0.0f;
-        }
+        alpha = Mathf.Clamp(alpha, 0.0f, 1.0f);
 
         if (!fadeImage.enabled)
         {

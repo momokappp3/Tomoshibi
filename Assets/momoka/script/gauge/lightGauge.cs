@@ -1,13 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.UI;
-
-/*
-ƒQ[ƒ€‚Éfade‚ð’Ç‰Á
-‘Ì—ÍƒQ[ƒWscale‚Æƒ¿’Ç‰Á
- */
 
 public class lightGauge : MonoBehaviour
 {
@@ -36,14 +30,10 @@ public class lightGauge : MonoBehaviour
     private float lightTypeMax = (float)lightType.Max;
     private float unitLight = 0.0f;
     private float timerLight = 0.0f;
-    //int k = 0;
     
     public void decLight(float degree)
     {
         lightNum -= degree;
-
-        //lightImage[k].color -= new Color(0.0f, 0.0f, 0.0f, 100.0f);
-        // k += 1;
     }
 
     void Start()
@@ -58,48 +48,45 @@ public class lightGauge : MonoBehaviour
         {
             noLight = true; 
             lightNum = 0.0f;
-            //ˆê‰ñ‰Š‘SÁ‚µ‚·‚é
-            SetLightGauge(lightType.Max);
+            SetLightGauge(lightType.Max); //‰Š‘SÁ‚µ
         }
-        else  //ƒ‰ƒO‚ª“‚¢else‚Å­‚µ‰ü‘P
+        else
         {
             UpdataGage();
         }
+        //Debug.Log(lightNum);
     }
 
     void UpdataGage()
     {
-        if (lightNum > 0.0f)
+        var delta = downLightNum * Time.deltaTime;
+
+        lightNum -= delta;
+
+        if (lightNum < 0.0f)
         {
-            var delta = downLightNum * Time.deltaTime;
+            lightNum = 0.0f;
+        }
 
-            lightNum -= delta;
+        var rate = lightNum / lightMax;  //0`1‚É•ÏŠ·
+        var invRate = 1.0f - rate;
+        var light = (lightType)(lightTypeMax * invRate);  //ƒ‰ƒCƒg
 
-            if (lightNum < 0.0f)
+        if (nowLight < light)
+        {
+            timerLight = 0.0f;
+            nowLight = light;
+            SetLightGauge(light);
+        }
+        else  //Œ»Ý‚©‚çÁ‚¦‚é‚Ü‚Å‚ÌŠÔ (nowLight == light)“¯‚¶‚Æ‚«
+        {
+            timerLight += delta;
+
+            var effectRate = timerLight / unitLight;  //‰Î‚Ì‹Ê‚ÌRate 0`1
+
+            if (effectRate < GAUGE_EFFECT_RATE)
             {
-                lightNum = 0.0f;
-            }
-
-            var rate = lightNum / lightMax;  //0`1‚É•ÏŠ·
-            var invRate = 1.0f - rate;
-            var light = (lightType)(lightTypeMax * invRate);  //ƒ‰ƒCƒg
-
-            if (nowLight < light)
-            {
-                timerLight = 0.0f;
-                nowLight = light;
-                SetLightGauge(light);
-            }
-            else  //Œ»Ý‚©‚çÁ‚¦‚é‚Ü‚Å‚ÌŠÔ (nowLight == light)“¯‚¶‚Æ‚«
-            {
-                timerLight += delta;
-
-                var effectRate = timerLight / unitLight;  //‰Î‚Ì‹Ê‚ÌRate 0`1
-
-                if (effectRate < GAUGE_EFFECT_RATE)
-                {
-                    SetLightScaleAndAlpha(nowLight, 1 - effectRate);
-                }
+                SetLightScaleAndAlpha(nowLight, 1 - effectRate);
             }
         }
     }
@@ -127,15 +114,7 @@ public class lightGauge : MonoBehaviour
         int gaugeInt = (int)gauge;
         var c = lightImage[gaugeInt].color;
 
-        if (rate > GAUGE_EFFECT_RATE)
-        {
-            rate = GAUGE_EFFECT_RATE;
-        }
-
-        if (rate < 0.0f)
-        {
-            rate = 0.0f;
-        }
+        rate = Mathf.Clamp(rate, 0.0f, GAUGE_EFFECT_RATE);
 
         lightImage[gaugeInt].color = new Color(c.r, c.g, c.b, rate);  //ƒAƒ‹ƒtƒ@
         lightImage[gaugeInt].rectTransform.localScale = new Vector3(rate, rate, rate);  //‘å‚«‚³

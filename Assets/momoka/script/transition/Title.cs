@@ -27,6 +27,7 @@ public class Title : MonoBehaviour
         Max
     }
 
+    [SerializeField] private AudioClip selectSE;
     [SerializeField] private Image selectImage;
     [SerializeField] private List<Image> colorImage = new List<Image>();
     [SerializeField] private List<TitleFade> fadeInfo = new List<TitleFade>();
@@ -35,7 +36,10 @@ public class Title : MonoBehaviour
     private bool onSelect = false;
 
     private float countUpGoGame = 0.0f;
-    [SerializeField] public float timeLimitGoGame = 0.0f;  //シーンを移る時何秒かけるか
+    [SerializeField] public float timeLimitGoGame = 5.0f;  //シーンを移る時何秒かけるか
+
+    private float countSelectFire = 0.0f;
+    [SerializeField] public float SelectFireTime = 3.0f;  //選択された炎何秒かけるか
 
     private float angle = 0.0f;
     private Vector2 firstGhost = Vector2.zero;
@@ -44,8 +48,12 @@ public class Title : MonoBehaviour
     private float lastRengeScale = 1.0f;
     private float nowRengeScale = 1.0f;
 
+    AudioSource audioSource;
+
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         foreach (var image in colorImage)
         {
             image.enabled = false;
@@ -67,19 +75,32 @@ public class Title : MonoBehaviour
         if (!onSelect && Input.anyKeyDown )
         {
             //炎のSE入れる
+            audioSource.PlayOneShot(selectSE);
             onSelect = true;
         }
 
         if(!onEnter && onSelect)
         {
-            //SetLightScaleAndAlpha(rate);
+            if (countSelectFire >= 0.0f)
+            {
+                countSelectFire += Time.deltaTime;
+            }
+
+            if (countSelectFire >= SelectFireTime)
+            {
+                
+                var rate = SelectFireTime / countSelectFire;
+
+                SetLightScaleAndAlpha(1 - rate);
+            }
         }
 
         if (selectImage.enabled && Input.GetKeyUp(KeyCode.Return))
         {
             onEnter = true;
+            SelectFireTime = 1.2f;
+            countSelectFire = 2.0f;
 
-            
             for (var i = 0; i < fadeInfo.Count; i++)   //初期化しなおし
             {
                 fadeInfo[i].alpha = 0.0f;
@@ -89,19 +110,23 @@ public class Title : MonoBehaviour
 
         if (onEnter)
         {
-            ReverseUpdateAlpha();
-            //SetLightScaleAndAlpha(1 - rate);
+            var rate = SelectFireTime / countSelectFire;
+
+            countSelectFire += Time.deltaTime;
+
+            UpdateAlpha(true);
+            SetLightScaleAndAlpha(rate);
 
             countUpGoGame += Time.deltaTime;
 
             if (countUpGoGame >= timeLimitGoGame)
             {  //カウント
-                SceneManager.LoadScene("GameSample");
+                SceneManager.LoadScene("GameMain");
             }
         }
         else
         {
-            UpdateAlpha();
+            UpdateAlpha(false);
         }
     }
 
@@ -114,15 +139,7 @@ public class Title : MonoBehaviour
 
         var c = selectImage.color;
 
-        if (rate > GAUGE_EFFECT_RATE)
-        {
-            rate = GAUGE_EFFECT_RATE;
-        }
-
-        if (rate < 0.0f)
-        {
-            rate = 0.0f;
-        }
+        rate = Mathf.Clamp(rate, 0.0f, GAUGE_EFFECT_RATE);
 
         selectImage.color = new Color(c.r, c.g, c.b, rate);  //アルファ
         selectImage.rectTransform.localScale = new Vector3(rate, rate, rate);  //大きさ
@@ -158,7 +175,7 @@ public class Title : MonoBehaviour
     //=============================================================================
     //タイトル画像のAlpha操作
 
-    private void UpdateAlpha()
+    private void UpdateAlpha(bool reverse)
     {
         for (var i = 0; i < fadeInfo.Count; i++)
         {
@@ -172,26 +189,14 @@ public class Title : MonoBehaviour
 
                 var a = fadeInfo[i].alpha / fadeInfo[i].anim;  //0～1の割合
 
-                SetImageAlpha(i, a);
-            }
-        }
-    }
-
-    private void ReverseUpdateAlpha()
-    {
-        for (var i = 0; i < fadeInfo.Count; i++)
-        {
-            if (fadeInfo[i].wait > 0.0f)
-            {
-                fadeInfo[i].wait -= Time.deltaTime;
-            }
-            else
-            {
-                fadeInfo[i].alpha += Time.deltaTime;
-
-                var a = fadeInfo[i].alpha / fadeInfo[i].anim;  //0～1の割合
-
-                SetImageAlpha(i,1 - a);
+                if (!reverse)
+                {
+                    SetImageAlpha(i, a);
+                }
+                else
+                {
+                    SetImageAlpha(i, 1 - a);
+                }
             }
         }
     }
@@ -203,15 +208,7 @@ public class Title : MonoBehaviour
             return;
         }
 
-        if (alpha > 1.0f)
-        {
-            alpha = 1.0f;
-        }
-
-        if (alpha < 0.0f)
-        {
-            alpha = 0.0f;
-        }
+        alpha = Mathf.Clamp(alpha, 0.0f, 1.0f);
 
         if (!colorImage[index].enabled)
         {

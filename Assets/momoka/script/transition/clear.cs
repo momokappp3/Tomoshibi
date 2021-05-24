@@ -5,10 +5,8 @@ using UnityEngine.UI;
 
 public class clear : MonoBehaviour
 {
-    //fadeInOut‚Ìˆ—
 
     [SerializeField] private Image fadeImage;
-
     [SerializeField] private float anim;   //‰½•b‚©‚¯‚Äƒ¿‚ª“®‚­‚©
     private float timer = 0.0f;
 
@@ -19,11 +17,6 @@ public class clear : MonoBehaviour
 
     private float countUpFadeOut = 0.0f;
     [SerializeField] public float timeFadeOut = 3.0f;
-
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -45,8 +38,6 @@ public class clear : MonoBehaviour
         {
             onEnter = true;
         }
-
-
     }
 
     private void UpdateFade()
@@ -70,15 +61,7 @@ public class clear : MonoBehaviour
     private void SetImageAlpha(float alpha)
     {
 
-        if (alpha > 1.0f)
-        {
-            alpha = 1.0f;
-        }
-
-        if (alpha < 0.0f)
-        {
-            alpha = 0.0f;
-        }
+        alpha = Mathf.Clamp(alpha, 0.0f, 1.0f);
 
         if (!fadeImage.enabled)
         {
@@ -90,4 +73,3 @@ public class clear : MonoBehaviour
         fadeImage.color = new Color(c.r, c.g, c.b, alpha);
     }
 }
-
