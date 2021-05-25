@@ -376,6 +376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 527280601}
   - component: {fileID: 527280600}
+  - component: {fileID: 527280602}
   m_Layer: 0
   m_Name: BGM
   m_TagString: Untagged
@@ -395,7 +396,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f6de6b26170c3e84fbcddc0b3c2340c3, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.4
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -493,6 +494,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &527280602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527280599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 997bea0e7dcd9764294cf95ee093a81c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sound1: {fileID: 0}
+  IsFadeOut: 0
+  FadeInSeconds: 8
+  FadeOutSeconds: 4.5
 --- !u!1 &990627025
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,7 +682,6 @@ GameObject:
   - component: {fileID: 1162019975}
   - component: {fileID: 1162019974}
   - component: {fileID: 1162019979}
-  - component: {fileID: 1162019980}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -685,6 +701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30d7ec72e883a07498458223b8f9dbdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audi: {fileID: 527280599}
   selectSE: {fileID: 8300000, guid: b8a354ea6572aed40b34f5f4fe35f847, type: 3}
   selectImage: {fileID: 45288664}
   colorImage:
@@ -705,9 +722,8 @@ MonoBehaviour:
   - wait: 4
     anim: 6
     alpha: 0
-  timeLimitGoGame: 5
+  timeLimitGoGame: 4
   SelectFireTime: 1
-  audi: {fileID: 527280599}
 --- !u!114 &1162019975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -787,7 +803,7 @@ RectTransform:
   - {fileID: 374383377}
   - {fileID: 45288666}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -807,7 +823,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: b8a354ea6572aed40b34f5f4fe35f847, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 2.54
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -890,52 +906,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1162019980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1162019973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 997bea0e7dcd9764294cf95ee093a81c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sound1: {fileID: 8300000, guid: f6de6b26170c3e84fbcddc0b3c2340c3, type: 3}
-  IsFadeOut: 0
-  FadeInSeconds: 8
-  FadeOutSeconds: 3
---- !u!1 &1279842269
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1279842271}
-  m_Layer: 0
-  m_Name: selectSE
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1279842271
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279842269}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 691.17004, y: 341.55405, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1339372317
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class Title : MonoBehaviour
 {
     private const float GAUGE_EFFECT_RATE = 1.0f;
-    private const float ADD_ANGLE = 0.3f;
+    private const float ADD_ANGLE = 1.5f;         //0.3f エディタ上
     private const float RENGE_Y = 40.0f;
 
     [System.Serializable] private class TitleFade
@@ -26,6 +26,8 @@ public class Title : MonoBehaviour
 
         Max
     }
+
+    public GameObject audi;
 
     [SerializeField] private AudioClip selectSE;
     [SerializeField] private Image selectImage;
@@ -50,7 +52,6 @@ public class Title : MonoBehaviour
     private float nowRengeScale = 1.0f;
 
     AudioSource audioSource;
-    public GameObject audi;
 
     private void Start()
     {
@@ -90,8 +91,9 @@ public class Title : MonoBehaviour
             {
                 
                 var rate = SelectFireTime / countSelectFire;
+                var r = 1 - rate + 0.5f;  //半分の炎から
 
-                SetLightScaleAndAlpha(1 - rate);
+                SetLightScaleAndAlpha(r);
 
                 if (!onSound && rate < 0.9f)
                 {
@@ -105,14 +107,14 @@ public class Title : MonoBehaviour
         {
             onEnter = true;
             SelectFireTime = 1.2f;
-            countSelectFire = 2.0f;
+            countSelectFire = 3.0f;
 
-            audi.GetComponent<BGMfade>().IsFadeOut = true; //おかしい
+            audi.GetComponent<BGMfade>().IsFadeOut = true;
 
             for (var i = 0; i < fadeInfo.Count; i++)   //初期化しなおし
             {
                 fadeInfo[i].alpha = 0.0f;
-                fadeInfo[i].anim /= 1.5f;  //1.5倍に速くしている
+                fadeInfo[i].anim /= 2.0f;  //1.5倍に速くしている
             }
         }
 
@@ -144,7 +146,6 @@ public class Title : MonoBehaviour
 
     void SetLightScaleAndAlpha(float rate)
     {
-        rate += 0.5f;
 
         var c = selectImage.color;
 
