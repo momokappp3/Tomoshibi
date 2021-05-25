@@ -2524,7 +2524,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 945bfac8f384e09489b5864d562125f9, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1837bf6f73ff2a94da21cb2d95137648, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -2636,10 +2636,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 997bea0e7dcd9764294cf95ee093a81c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound1: {fileID: 8300000, guid: 945bfac8f384e09489b5864d562125f9, type: 3}
   IsFadeOut: 0
   FadeInSeconds: 4
-  FadeOutSeconds: 10
+  FadeOutSeconds: 4
 --- !u!1 &367443959
 GameObject:
   m_ObjectHideFlags: 0
@@ -15673,7 +15672,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8298750295433789531, guid: 14d0529429c38b04c9b257f9b6a576db, type: 3}
       propertyPath: timeFadeOut
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8298750295433789531, guid: 14d0529429c38b04c9b257f9b6a576db, type: 3}
       propertyPath: Texts.Array.data[0]

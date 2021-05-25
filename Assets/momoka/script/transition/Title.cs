@@ -34,6 +34,7 @@ public class Title : MonoBehaviour
 
     private bool onEnter = false;
     private bool onSelect = false;
+    private bool onSound = false;
 
     private float countUpGoGame = 0.0f;
     [SerializeField] public float timeLimitGoGame = 5.0f;  //ÉVÅ[ÉìÇà⁄ÇÈéûâΩïbÇ©ÇØÇÈÇ©
@@ -49,6 +50,7 @@ public class Title : MonoBehaviour
     private float nowRengeScale = 1.0f;
 
     AudioSource audioSource;
+    public GameObject audi;
 
     private void Start()
     {
@@ -74,8 +76,6 @@ public class Title : MonoBehaviour
 
         if (!onSelect && Input.anyKeyDown )
         {
-            //âäÇÃSEì¸ÇÍÇÈ
-            audioSource.PlayOneShot(selectSE);
             onSelect = true;
         }
 
@@ -92,6 +92,12 @@ public class Title : MonoBehaviour
                 var rate = SelectFireTime / countSelectFire;
 
                 SetLightScaleAndAlpha(1 - rate);
+
+                if (!onSound && rate < 0.9f)
+                {
+                    audioSource.PlayOneShot(selectSE);
+                    onSound = true;
+                }
             }
         }
 
@@ -100,6 +106,8 @@ public class Title : MonoBehaviour
             onEnter = true;
             SelectFireTime = 1.2f;
             countSelectFire = 2.0f;
+
+            audi.GetComponent<BGMfade>().IsFadeOut = true; //Ç®Ç©ÇµÇ¢
 
             for (var i = 0; i < fadeInfo.Count; i++)   //èâä˙âªÇµÇ»Ç®Çµ
             {
@@ -136,6 +144,7 @@ public class Title : MonoBehaviour
 
     void SetLightScaleAndAlpha(float rate)
     {
+        rate += 0.5f;
 
         var c = selectImage.color;
 

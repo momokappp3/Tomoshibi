@@ -14,14 +14,18 @@ public class end : MonoBehaviour
     private bool onEnter;
 
     private float countUpInput = 0.0f;  //InputCount
-    [SerializeField] public float timeInput = 3.0f;  //Input‚¤‚¯‚Â‚¯‚Ü‚Å‰½•b‚©‚¯‚é‚©
+    [SerializeField] private float timeInput = 3.0f;  //Input‚¤‚¯‚Â‚¯‚Ü‚Å‰½•b‚©‚¯‚é‚©
 
     private float countUpFadeOut = 0.0f;
-    [SerializeField] public float timeFadeOut = 3.0f;
+    [SerializeField] private float timeFadeOut = 3.0f;
+
+    [SerializeField] private AudioClip selectSE;
+    AudioSource audioSource;
 
     void Start()
     {
         selectImage.enabled = false;
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -32,6 +36,7 @@ public class end : MonoBehaviour
         if (!selectImage.enabled && Input.anyKeyDown && countUpInput >= timeInput)
         {
             selectImage.enabled = true;
+            audioSource.PlayOneShot(selectSE);
         }
 
         if (selectImage.enabled && Input.GetKey(KeyCode.Return))
@@ -57,7 +62,7 @@ public class end : MonoBehaviour
 
         var a = timer / anim;  //0`1‚ÌŠ„‡
 
-        if (reverse)  //O€‰‰Zq‚Å‚«‚È‚©‚Á‚½R(`„DL)É‚È‚ñ‚Å‚â
+        if (reverse)
         {
             SetImageAlpha(a);
         }

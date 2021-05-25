@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         {
             goGameOver = true;
             timer = 0.0f;
-            audi.GetComponent<Audi>().IsFadeOut = true;
+            audi.GetComponent<BGMfade>().IsFadeOut = true;
         }
 
         if (goGameOver)
@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
         {
             goGameOver = true;
             timer = 0.0f;
-            audi.GetComponent<Audi>().IsFadeOut = true;
+            audi.GetComponent<BGMfade>().IsFadeOut = true;
         }
     }
 
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
 
         var a = timer / anim;  //0～1の割合
 
-        if (reverse)  //三項演算子できなかったヽ(`Д´)ﾉなんでや
+        if (reverse)  //三項演算子できなかったです...
         {
             SetImageAlpha(a);
         }

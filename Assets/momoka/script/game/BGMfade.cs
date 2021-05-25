@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Audi : MonoBehaviour
+public class BGMfade : MonoBehaviour
 {
     public AudioClip sound1;
     AudioSource audioSource;
@@ -38,11 +38,6 @@ public class Audi : MonoBehaviour
         {
             FadeOutCountTime += Time.deltaTime;
             audioSource.volume = 1 - (float)(FadeOutCountTime / FadeOutSeconds);
-
-           // if (FadeOutCountTime >= FadeOutSeconds)
-            //{
-              //  IsFadeOut = false;
-           // }
         }
     }
 }
