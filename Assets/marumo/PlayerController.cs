@@ -39,6 +39,10 @@ public class PlayerController : MonoBehaviour
         new Vector3(2.2f, 0.8f, 1.0f),
         new Vector3(2.8f, 0.8f, -1.0f) };
 
+    //momoka
+    AudioSource audioSource;
+    [SerializeField] private AudioClip damegeSE;
+    [SerializeField] private AudioClip attackSE;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +51,8 @@ public class PlayerController : MonoBehaviour
         this.myLight = transform.Find("Point Light").gameObject;
         this.GMmanager = GameObject.Find("GameManager").GetComponent<GameManager>();
         TargetMaterial = GetComponent<Renderer>().material;
+
+        audioSource = GetComponent<AudioSource>();  //momoka
     }
 
     // Update is called once per frame
@@ -143,6 +149,7 @@ public class PlayerController : MonoBehaviour
         //}
         // 左右
         int key = 0;
+
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) key = -1;
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) key = 1;
         // 攻撃入力
@@ -154,6 +161,8 @@ public class PlayerController : MonoBehaviour
             TargetMaterial.SetTexture("_MainTex", AttackTexts[l]);
             state = State.Attack;
             time = 0.0f;
+
+            audioSource.PlayOneShot(attackSE);
             return;
         }
 
@@ -184,6 +193,7 @@ public class PlayerController : MonoBehaviour
 
     public void Damage()
     {
+        audioSource.PlayOneShot(damegeSE);
         GMmanager.Damage();
         m = 0;
         TargetMaterial.SetTexture("_MainTex", DamageTexts[l]);

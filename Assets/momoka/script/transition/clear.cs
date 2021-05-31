@@ -16,7 +16,7 @@ public class clear : MonoBehaviour
     [SerializeField] public float timeInput = 3.0f;  //Inputうけつけまで何秒かけるか
 
     private float countUpFadeOut = 0.0f;
-    [SerializeField] public float timeFadeOut = 3.0f;
+    [SerializeField] public float timeFadeOut = 10.0f;  //エディタ3.0f
 
     // Update is called once per frame
     void Update()
