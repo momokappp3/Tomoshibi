@@ -78,6 +78,14 @@ public class GameManager : MonoBehaviour
 
     public void Clear()
     {
+        //おばけ全種類倒したら
+        for (int i = 0; i < 4; i++)
+        {
+            if (scores[i] <= 0)
+            {
+                return;
+            }
+        }
         Debug.Log("go");
         SceneManager.LoadScene("GameClear");
     }

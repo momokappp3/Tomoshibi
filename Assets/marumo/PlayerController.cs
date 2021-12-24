@@ -107,16 +107,14 @@ public class PlayerController : MonoBehaviour
                 time = 0.0f;
                 TargetMaterial.SetTexture("_MainTex", DamageTexts[l]);
             }
-
-
             return;
         }
 
         if (state == State.Muteki)
         {
             tt += Time.deltaTime;
-            int x = 0;
 
+            int x = 0;
 
             if (tt > 0.15f && 0.3f > tt)
             {
@@ -141,19 +139,14 @@ public class PlayerController : MonoBehaviour
 
         }
 
-
-        //// ジャンプ
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    this.rigid.AddForce(new Vector3(0, 1, 0) * this.jumpForce);
-        //}
         // 左右
         int key = 0;
 
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) key = -1;
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) key = 1;
+
         // 攻撃入力
-        if (Input.GetMouseButtonDown(0) && state != State.Muteki)
+        if (Input.GetKeyDown(KeyCode.Space) && state != State.Muteki)
         {
             this.rigid.velocity = Vector3.zero;
 
@@ -202,5 +195,3 @@ public class PlayerController : MonoBehaviour
         return;
     }
 }
-
-

@@ -22,7 +22,7 @@ public class Goal : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // çUåÇÇµÇΩ
-        if (other.tag == "Player")
+        if (other.tag == "Attack")
         {
             GM.Clear();
         }
